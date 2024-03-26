@@ -50,21 +50,24 @@ def load_model(
 
     # Load weights if needed...
     resize, normalise = transforms[model_type]
+    state_dict = None
     if isinstance(weights_path, str):
         if weights_path == "random":
             for param in model.parameters():
                 torch.nn.init.uniform(param.data)
         else:
             state_dict = torch.load(weights_path, map_location=device)
-            if model_type == "midas":
-                keys = [k for k in state_dict if "attn.relative_position_index" in k]
-                for k in keys:
-                    del state_dict[k]
-            model.load_state_dict(state_dict)
     if isinstance(weights_path, MODEL):
         weights_path = weights_path.value
         state_dict = torch.hub.load_state_dict_from_url(
             weights_path, map_location=device
         )
+
+    if state_dict is not None:
+        if model_type == "midas":
+            keys = [k for k in state_dict if "attn.relative_position_index" in k]
+            for k in keys:
+                del state_dict[k]
+        model.load_state_dict(state_dict)
 
     return model, resize, normalise
