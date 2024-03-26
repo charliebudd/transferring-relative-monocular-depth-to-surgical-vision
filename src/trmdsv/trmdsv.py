@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Optional, Tuple, Union
+from typing import Tuple, Union
 
 import torch
 from torchvision.transforms import Normalize, Resize
@@ -25,13 +25,15 @@ class MODEL(Enum):
 
 
 def load_model(
-    model_type: str, weights_path: Optional[Union[str, MODEL]], device: str
+    model_type: str,
+    weights_path: Union[str, MODEL] = MODEL.DA_SUP_TEMP,
+    device: str = "cuda",
 ) -> Tuple[torch.nn.Module, Resize, Normalize]:
     r"""Load a model with the given type and weights.
 
     Args:
         model_type (str): The type of model to load.
-        weights_path (Optional[Union[str, MODEL]]): The path to the weights file or a MODEL enum value.
+        weights_path (Union[str, MODEL]): The path to the weights file or a MODEL enum value. Defaults to MODEL.DA_SUP_TEMP. Use weight_path="random" to initialise the model with random weights.
         device (str): The device to load the model on.
 
     Returns:
@@ -58,9 +60,8 @@ def load_model(
         else:
             state_dict = torch.load(weights_path, map_location=device)
     if isinstance(weights_path, MODEL):
-        weights_path = weights_path.value
         state_dict = torch.hub.load_state_dict_from_url(
-            weights_path, map_location=device
+            weights_path.value, map_location=device
         )
 
     if state_dict is not None:
