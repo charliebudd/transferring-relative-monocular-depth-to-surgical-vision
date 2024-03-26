@@ -17,9 +17,9 @@ from torchvision.io import read_image
 from torchvision.transforms.functional import resize
 import matplotlib.pyplot as plt
 
-from trmdsv import load_model
+from trmdsv import load_model, MODEL
 
-model, resize_for_model, normalise_for_model = load_model("midas", "weights/path.pt", "cuda")
+model, resize_for_model, normalise_for_model = load_model("midas", MODEL.DA_SUP, "cuda")
 model.eval()
 
 image = read_image("surgical_image.png").cuda() / 255.0
