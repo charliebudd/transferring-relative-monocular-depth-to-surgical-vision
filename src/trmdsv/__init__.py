@@ -1,1 +1,1 @@
-from .trmdsv import load_model
+from .trmdsv import MODEL, load_model
