@@ -8,4 +8,9 @@ setup(
     license='MIT',
     packages=find_packages("src"),
     package_dir={'trmdsv': 'src/trmdsv'},
+    install_requires=[
+        'torch>=2.2.0',
+        'torchvision>=0.17.0',
+        'timm>=0.9.16',
+    ],
 )
