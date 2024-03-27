@@ -12,17 +12,19 @@ pip install git+https://github.com/charliebudd/transferring-relative-monocular-d
 ```
 The model may then be used as follows (`MODEL.DA_SUP_TEMP` best model):
 ```python
+import matplotlib.pyplot as plt
 import torch
 from torchvision.io import read_image
 from torchvision.transforms.functional import resize
-import matplotlib.pyplot as plt
 
-from trmdsv import load_model, MODEL
+from src.trmdsv import MODEL, load_model
 
-model, resize_for_model, normalise_for_model = load_model("midas", MODEL.DA_SUP_TEMP, "cuda")
+model, resize_for_model, normalise_for_model = load_model(
+    model_type="depthanything", weights_path=MODEL.DA_SUP_TEMP, device="cuda"
+)
 model.eval()
 
-image = read_image("surgical_image.png").cuda() / 255.0
+image = read_image("sample/cholec80_sample.png").cuda() / 255.0
 original_size = image.shape[-2:]
 image_for_model = normalise_for_model(resize_for_model(image.unsqueeze(0)))
 
@@ -36,7 +38,6 @@ plt.imshow(image.cpu().permute(1, 2, 0))
 plt.subplot(122).axis("off")
 plt.imshow(depth.cpu().permute(1, 2, 0))
 plt.show()
-
 ```
 
 # Recreating Our Results
