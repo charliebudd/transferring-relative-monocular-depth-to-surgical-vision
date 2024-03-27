@@ -24,7 +24,7 @@ model, resize_for_model, normalise_for_model = load_model(
 )
 model.eval()
 
-image = read_image("sample/cholec80_sample.png").cuda() / 255.0
+image = read_image("data/cholec80_sample.png").cuda() / 255.0
 original_size = image.shape[-2:]
 image_for_model = normalise_for_model(resize_for_model(image.unsqueeze(0)))
 
