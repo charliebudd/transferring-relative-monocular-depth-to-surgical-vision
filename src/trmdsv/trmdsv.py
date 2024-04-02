@@ -17,11 +17,11 @@ transforms = {
 
 
 class MODEL(Enum):
-    version = "model_release"
-    DA_SUP_AUG = f"https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/download/{version}/da-sup-aug.pt"
-    DA_SUP_TEMP_AUG = f"https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/download/{version}/da-sup-temp-aug.pt"
-    DA_SUP_TEMP = f"https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/download/{version}/da-sup-temp.pt"
-    DA_SUP = f"https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/download/{version}/da-sup.pt"
+    __tag__ = "model_release"
+    DA_SUP_AUG = f"https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/download/{__tag__}/da-sup-aug.pt"
+    DA_SUP_TEMP_AUG = f"https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/download/{__tag__}/da-sup-temp-aug.pt"
+    DA_SUP_TEMP = f"https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/download/{__tag__}/da-sup-temp.pt"
+    DA_SUP = f"https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/download/{__tag__}/da-sup.pt"
 
 
 def load_model(
