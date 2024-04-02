@@ -21,7 +21,7 @@ from src.trmdsv import MODELS, load_model
 
 model, resize_for_model, normalise_for_model = load_model(
     model_type="depthanything",
-    weights_path=MODELS.DEPTHANYTHING.SUP_TEMP,
+    weights_path=MODELS.DEPTHANYTHING_SUP_TEMP_AUG,
     device="cuda",
 )
 model.eval()
