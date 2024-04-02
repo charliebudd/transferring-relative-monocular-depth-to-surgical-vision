@@ -51,7 +51,6 @@ def load_model(
     model.to(device)
 
     # Load weights if needed...
-    resize, normalise = transforms[model_type]
     state_dict = None
     if isinstance(weights_path, str):
         if weights_path == "random":
@@ -75,11 +74,12 @@ def load_model(
             raise ValueError(
                 "Provided weights seem to be for the DepthAnything architecture"
             )
-
         if model_type == "midas":
             keys = [k for k in state_dict if "attn.relative_position_index" in k]
             for k in keys:
                 del state_dict[k]
         model.load_state_dict(state_dict)
+
+    resize, normalise = transforms[model_type]
 
     return model, resize, normalise
