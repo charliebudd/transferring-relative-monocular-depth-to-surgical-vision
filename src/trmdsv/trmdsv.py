@@ -22,16 +22,18 @@ def load_model(model_type, weights_path, device):
 
     # Load weights if needed...
     if weights_path != None:
-        if weights_path == "random":
-            for param in model.parameters():
-                torch.nn.init.uniform(param.data)
-        else:
-            state_dict = torch.load(weights_path, map_location=device)
-            if model_type == "midas":
-                keys = [k for k in state_dict if "attn.relative_position_index" in k]
-                for k in keys:
-                    del state_dict[k]
-            model.load_state_dict(state_dict)
+        state_dict = torch.load(weights_path, map_location=device)
+        
+        if model_type == "depthanything" and any(key.startswith('scratch') for key in state_dict):
+            raise ValueError("Provided weights seem to be for the MiDaS architecture")
+        elif model_type == "midas" and any(key.startswith('depth_head') for key in state_dict):
+            raise ValueError("Provided weights seem to be for the DepthAnything architecture")
+        
+        if model_type == "midas":
+            keys = [k for k in state_dict if "attn.relative_position_index" in k]
+            for k in keys:
+                del state_dict[k]
+        model.load_state_dict(state_dict)
 
     resize, normalise = transforms[model_type]
 
