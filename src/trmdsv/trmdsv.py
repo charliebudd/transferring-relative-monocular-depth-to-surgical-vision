@@ -65,6 +65,17 @@ def load_model(
         )
 
     if state_dict is not None:
+        if model_type == "depthanything" and any(
+            key.startswith("scratch") for key in state_dict
+        ):
+            raise ValueError("Provided weights seem to be for the MiDaS architecture")
+        elif model_type == "midas" and any(
+            key.startswith("depth_head") for key in state_dict
+        ):
+            raise ValueError(
+                "Provided weights seem to be for the DepthAnything architecture"
+            )
+
         if model_type == "midas":
             keys = [k for k in state_dict if "attn.relative_position_index" in k]
             for k in keys:
