@@ -10,7 +10,7 @@ First, install our package...
 ```
 pip install git+https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision
 ```
-Then download one of our models weights from the [release tab](https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/tag/model_release) in this repo. We would reccomend our best performer, `da-sup-temp.pt`. The model may then be used as follows...
+Then download one of our models weights from the [release tab](https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/tag/model_release) in this repo. We would reccomend our best performer, `depthanything-sup-temp.pt`. The model may then be used as follows...
 ```python
 import torch
 from torchvision.io import read_image
@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 
 from trmdsv import load_model
 
-model, resize_for_model, normalise_for_model = load_model("midas", "weights/path.pt", "cuda")
+model, resize_for_model, normalise_for_model = load_model("depthanything", "weights/path.pt", "cuda")
 model.eval()
 
 image = read_image("surgical_image.png").cuda() / 255.0
