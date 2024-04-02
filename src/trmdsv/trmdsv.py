@@ -17,30 +17,30 @@ transforms = {
 
 
 class MODEL(Enum):
-    __tag = "model_release"
-    __base_url = "https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/download"
+    _tag = "model_release"
+    _base_url = "https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/download"
 
-    DA_SUP_AUG = f"{__base_url}/{__tag}/da-sup-aug.pt"
-    DA_SUP_TEMP_AUG = f"{__base_url}/{__tag}/da-sup-temp-aug.pt"
-    DA_SUP_TEMP = f"{__base_url}/{__tag}/da-sup-temp.pt"
-    DA_SUP = f"{__base_url}/{__tag}/da-sup.pt"
+    DEPTHANYTHING_SUP_AUG = f"{_base_url}/{_tag}/depthanything-sup-aug.pt"
+    DEPTHANYTHING_SUP_TEMP_AUG = f"{_base_url}/{_tag}/depthanything-sup-temp-aug.pt"
+    DEPTHANYTHING_SUP_TEMP = f"{_base_url}/{_tag}/depthanything-sup-temp.pt"
+    DEPTHANYTHING_SUP = f"{_base_url}/{_tag}/depthanything-sup.pt"
 
-    MIDAS_SUP_AUG = f"{__base_url}/{__tag}/midas-sup-aug.pt"
-    MIDAS_SUP_TEMP_AUG = f"{__base_url}/{__tag}/midas-sup-temp-aug.pt"
-    MIDAS_SUP_TEMP = f"{__base_url}/{__tag}/midas-sup-temp.pt"
-    MIDAS_SUP = f"{__base_url}/{__tag}/midas-sup.pt"
+    MIDAS_SUP_AUG = f"{_base_url}/{_tag}/midas-sup-aug.pt"
+    MIDAS_SUP_TEMP_AUG = f"{_base_url}/{_tag}/midas-sup-temp-aug.pt"
+    MIDAS_SUP_TEMP = f"{_base_url}/{_tag}/midas-sup-temp.pt"
+    MIDAS_SUP = f"{_base_url}/{_tag}/midas-sup.pt"
 
 
 def load_model(
     model_type: str,
-    weights_path: Union[str, MODEL] = MODEL.DA_SUP_TEMP,
+    weights_path: Union[str, MODEL] = MODEL.DEPTHANYTHING_SUP_TEMP,
     device: str = "cuda",
 ) -> Tuple[torch.nn.Module, Resize, Normalize]:
     r"""Load a model with the given type and weights.
 
     Args:
         model_type (str): The type of model to load.
-        weights_path (Union[str, MODEL]): The path to the weights file or a MODEL enum value. Defaults to MODEL.DA_SUP_TEMP. Use weight_path="random" to initialise the model with random weights.
+        weights_path (Union[str, MODEL]): The path to the weights file or a MODEL enum value. Defaults to MODEL.DEPTHANYTHING_SUP_TEMP. Use weight_path="random" to initialise the model with random weights.
         device (str): The device to load the model on.
 
     Returns:
