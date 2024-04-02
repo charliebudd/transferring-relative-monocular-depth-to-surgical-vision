@@ -18,10 +18,17 @@ transforms = {
 
 class MODEL(Enum):
     __tag = "model_release"
-    DA_SUP_AUG = f"https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/download/{__tag}/da-sup-aug.pt"
-    DA_SUP_TEMP_AUG = f"https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/download/{__tag}/da-sup-temp-aug.pt"
-    DA_SUP_TEMP = f"https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/download/{__tag}/da-sup-temp.pt"
-    DA_SUP = f"https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/download/{__tag}/da-sup.pt"
+    __base_url = "https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/download"
+
+    DA_SUP_AUG = f"{__base_url}/{__tag}/da-sup-aug.pt"
+    DA_SUP_TEMP_AUG = f"{__base_url}/{__tag}/da-sup-temp-aug.pt"
+    DA_SUP_TEMP = f"{__base_url}/{__tag}/da-sup-temp.pt"
+    DA_SUP = f"{__base_url}/{__tag}/da-sup.pt"
+
+    MIDAS_SUP_AUG = f"{__base_url}/{__tag}/midas-sup-aug.pt"
+    MIDAS_SUP_TEMP_AUG = f"{__base_url}/{__tag}/midas-sup-temp-aug.pt"
+    MIDAS_SUP_TEMP = f"{__base_url}/{__tag}/midas-sup-temp.pt"
+    MIDAS_SUP = f"{__base_url}/{__tag}/midas-sup.pt"
 
 
 def load_model(
