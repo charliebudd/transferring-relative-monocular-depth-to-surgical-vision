@@ -51,6 +51,7 @@ def load_model(
     Notes:
         When weights_path is a string, it can be a path to a local file, e.g. <path_to>/model.pt, or "random".
         When weights_path is a WEIGHTS_URL, the weights will be downloaded from the given URL.
+        When weights_path is None, model will be instantiated with PyTorch default initialisation. 
     """
 
     # Load base model...
