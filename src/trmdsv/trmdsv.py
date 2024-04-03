@@ -17,6 +17,8 @@ transforms = {
 
 
 class WEIGHTS_URL(Enum):
+    r"""Convenience enum for URLs to the pre-trained models."""
+
     _base_url = "https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/download"
     _tag = "model_release"
 
