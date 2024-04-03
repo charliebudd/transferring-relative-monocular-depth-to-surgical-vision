@@ -16,9 +16,9 @@ transforms = {
 }
 
 
-class MODEL(Enum):
-    _tag = "model_release"
+class WEIGHTS_URL(Enum):
     _base_url = "https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/download"
+    _tag = "model_release"
 
     DEPTHANYTHING_SUP_AUG = f"{_base_url}/{_tag}/depthanything-sup-aug.pt"
     DEPTHANYTHING_SUP_TEMP_AUG = f"{_base_url}/{_tag}/depthanything-sup-temp-aug.pt"
@@ -33,18 +33,22 @@ class MODEL(Enum):
 
 def load_model(
     model_type: str,
-    weights_path: Union[str, MODEL] = MODEL.DEPTHANYTHING_SUP_TEMP,
+    weights_path: Union[str, WEIGHTS_URL] = WEIGHTS_URL.DEPTHANYTHING_SUP_TEMP,
     device: str = "cuda",
 ) -> Tuple[torch.nn.Module, Resize, Normalize]:
     r"""Load a model with the given type and weights.
 
     Args:
         model_type (str): The type of model to load.
-        weights_path (Union[str, MODEL]): The path to the weights file or a MODEL enum value. Defaults to MODEL.DEPTHANYTHING_SUP_TEMP. Use weight_path="random" to initialise the model with random weights.
+        weights_path (Union[str, WEIGHTS_URL]): The path to the weights file or a WEIGHTS_URL enum value. Use weight_path="random" to initialise the model with random weights.
         device (str): The device to load the model on.
 
     Returns:
         Tuple[torch.nn.Module, Resize, Normalize]: The model, resize transform, and normalise transform.
+
+    Notes:
+        When weights_path is a string, it can be a path to a local file, e.g. <path_to>/model.pt, or "random".
+        When weights_path is a WEIGHTS_URL, the weights will be downloaded from the given URL.
     """
 
     # Load base model...
@@ -65,7 +69,7 @@ def load_model(
                 torch.nn.init.uniform(param.data)
         else:
             state_dict = torch.load(weights_path, map_location=device)
-    if isinstance(weights_path, MODEL):
+    if isinstance(weights_path, WEIGHTS_URL):
         state_dict = torch.hub.load_state_dict_from_url(
             weights_path.value, map_location=device
         )

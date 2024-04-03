@@ -1,1 +1,1 @@
-from .trmdsv import MODEL, load_model
+from .trmdsv import WEIGHTS_URL, load_model

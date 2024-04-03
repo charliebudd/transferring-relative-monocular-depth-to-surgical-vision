@@ -10,18 +10,18 @@ First, install our package...
 ```
 pip install git+https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision
 ```
-The model may then be used as follows (`MODEL.DEPTHANYTHING_SUP_TEMP` best model):
+The model may then be used as follows (`WEIGHTS_URL.DEPTHANYTHING_SUP_TEMP` best model):
 ```python
 import matplotlib.pyplot as plt
 import torch
 from torchvision.io import read_image
 from torchvision.transforms.functional import resize
 
-from trmdsv import MODEL, load_model
+from trmdsv import WEIGHTS_URL, load_model
 
 model, resize_for_model, normalise_for_model = load_model(
     model_type="depthanything",
-    weights_path=MODEL.DEPTHANYTHING_SUP_TEMP_AUG,
+    weights_path=WEIGHTS_URL.DEPTHANYTHING_SUP_TEMP_AUG,
     device="cuda",
 )
 model.eval()
