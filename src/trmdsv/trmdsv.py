@@ -34,7 +34,7 @@ class WEIGHTS_URL(Enum):
 
 
 def load_model(
-    model_type: str,
+    model_type: str = "depthanything",
     weights_path: Union[str, WEIGHTS_URL] = WEIGHTS_URL.DEPTHANYTHING_SUP_TEMP,
     device: str = "cuda",
 ) -> Tuple[torch.nn.Module, Resize, Normalize]:
