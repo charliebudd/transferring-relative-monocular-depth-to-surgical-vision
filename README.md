@@ -13,19 +13,23 @@ First, install our package...
 ```
 pip install git+https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision
 ```
-Then download one of our models weights from the [release tab](https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision/releases/tag/model_release) in this repo. We would recommend our best performer, `depthanything-sup-temp.pt`. The model may then be used as follows...
+The model may then be used as follows (`WEIGHTS_URL.DEPTHANYTHING_SUP_TEMP` best model):
 ```python
+import matplotlib.pyplot as plt
 import torch
 from torchvision.io import read_image
 from torchvision.transforms.functional import resize
-import matplotlib.pyplot as plt
 
-from trmdsv import load_model
+from trmdsv import WEIGHTS_URL, load_model
 
-model, resize_for_model, normalise_for_model = load_model("depthanything", "weights/path.pt", "cuda")
+model, resize_for_model, normalise_for_model = load_model(
+    model_type="depthanything",
+    weights_path=WEIGHTS_URL.DEPTHANYTHING_SUP_TEMP_AUG,
+    device="cuda",
+)
 model.eval()
 
-image = read_image("surgical_image.png").cuda() / 255.0
+image = read_image("data/cholec80_sample.png").cuda() / 255.0
 original_size = image.shape[-2:]
 image_for_model = normalise_for_model(resize_for_model(image.unsqueeze(0)))
 
@@ -39,7 +43,6 @@ plt.imshow(image.cpu().permute(1, 2, 0))
 plt.subplot(122).axis("off")
 plt.imshow(depth.cpu().permute(1, 2, 0))
 plt.show()
-
 ```
 
 # Recreating Our Results
