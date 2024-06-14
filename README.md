@@ -1,4 +1,7 @@
-# Transferring Relative Monocular Depth to Surgical Vision with Temporal Consistency
+# Transferring Relative Monocular Depth to Surgical Vision with Temporal Consistency (MICCAI 2024)
+
+![Example monocular depth inference](assets/example.png)
+
 This is the official repository for our state-of-the-art approach to monocular depth in surgical vision as presented in our paper...
 <ul><b>Transferring Relative Monocular Depth to Surgical Vision with Temporal Consistency</b><br>
     Charlie Budd, Tom Vercauteren.<br>
