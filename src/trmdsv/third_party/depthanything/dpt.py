@@ -177,5 +177,5 @@ class DPT_DINOv2(nn.Module):
 
 
 class DepthAnything(DPT_DINOv2, PyTorchModelHubMixin):
-    def __init__(self, config):
-        super().__init__(**config)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

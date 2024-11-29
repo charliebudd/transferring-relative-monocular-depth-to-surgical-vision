@@ -1,6 +1,6 @@
 import torch
 from torchvision.transforms import Resize, Normalize
-from .third_party.depthanything.dpt import DPT_DINOv2 as DepthAnything
+from .third_party.depthanything.dpt import DepthAnything
 from .third_party.midas.dpt_depth import DPTDepthModel as Midas
 
 transforms = {
@@ -14,7 +14,7 @@ def load_model(model_type, weights_path, device):
     if model_type == "midas":
         model = Midas(path=None, backbone="beitl16_512", non_negative=True)
     elif model_type == "depthanything":
-        model = DepthAnything()
+        model = DepthAnything().from_pretrained("LiheYoung/depth_anything_vitl14")
     else:
         raise ValueError(f"Incorrect base model name \"{model_type}\"")
 
