@@ -2,11 +2,9 @@ import argparse
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from huggingface_hub import PyTorchModelHubMixin, hf_hub_download
+from huggingface_hub import PyTorchModelHubMixin
 
 from .blocks import FeatureFusionBlock, _make_scratch
-
-from .dinov2.models import vits
 
 def _make_fusion_block(features, use_bn, size = None):
     return FeatureFusionBlock(
