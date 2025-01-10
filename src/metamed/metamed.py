@@ -109,14 +109,21 @@ class UnlabeledFrames(Dataset):
         images = glob(f"{self.clips[index]}/*.png")
         
         if self.pairs:
-            step = randint(1, self.max_frame_step)
-            first_index = randint(0, len(images)-step-1)
-            second_index = first_index + step
-            first_image = read_image(images[first_index])[:3] / 255.0
-            second_image = read_image(images[second_index])[:3] / 255.0
-            if self.transform is not None:
-                first_image, second_image = self.transform(first_image, other_image=second_image)
-            return first_image, second_image
+            for _ in range(5):
+                try:
+                    step = randint(1, self.max_frame_step)
+                    first_index = randint(0, len(images)-step-1)
+                    second_index = first_index + step
+                    first_image = read_image(images[first_index])[:3] / 255.0
+                    second_image = read_image(images[second_index])[:3] / 255.0
+                    if self.transform is not None:
+                        first_image, second_image = self.transform(first_image, other_image=second_image)
+                    return first_image, second_image
+                except:
+                    with open("fails.txt", "x+") as f:
+                        f.write("".join([
+                            self.clips[index], ", ", first_index, " ", second_index
+                        ]))
         else:
             index = randint(0, len(images)-1)
             image = read_image(images[index])[:3] / 255.0
@@ -179,9 +186,6 @@ class SCARED(Dataset):
             right_frame = read_image(right_frame_path)[:3] / 255.0
             
         depth = -1.0 / to_tensor(imageio.read(depth_path).get_data(0)).float()[2:3]
-        sorted = torch.sort(depth[~torch.isnan(depth)]).values
-        mi, ma = sorted[:2000].mean(), sorted[-2000:].mean()
-        depth = torch.clamp(depth, mi, ma)
        
         if self.stereo:
             if self.transform is not None:

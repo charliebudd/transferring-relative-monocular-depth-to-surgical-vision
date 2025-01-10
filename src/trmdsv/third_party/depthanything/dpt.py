@@ -142,22 +142,8 @@ class DPT_DINOv2(nn.Module):
         
         assert encoder in ['vits', 'vitb', 'vitl']
         
-        # self.pretrained = torch.hub.load('torchhub/facebookresearch_dinov2_main', 'dinov2_{:}14'.format(encoder), pretrained=False)
-        # self.pretrained = dinov2_vitl14(pretrained=False)
+        self.pretrained = torch.hub.load('facebookresearch/dinov2', 'dinov2_{:}14'.format(encoder), pretrained=False)
 
-        vit_kwargs = dict(
-            img_size=518,
-            patch_size=14,
-            init_values=1.0,
-            ffn_layer="mlp",
-            block_chunks=0,
-            num_register_tokens=0,
-            interpolate_antialias=False,
-            interpolate_offset=0.1,
-        )
-        self.pretrained = vits.__dict__["vit_large"](**vit_kwargs)
-
-        
         dim = self.pretrained.blocks[0].attn.qkv.in_features
         
         self.depth_head = DPTHead(1, dim, features, use_bn, out_channels=out_channels, use_clstoken=use_clstoken)

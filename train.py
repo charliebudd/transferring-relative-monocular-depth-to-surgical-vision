@@ -7,9 +7,10 @@ from torchvision.transforms import ColorJitter, RandomGrayscale, RandomHorizonta
 from torchvision.transforms.functional import resize
 from argparse import ArgumentParser
 
-from src.metamed import MetaMED, JointTransform, ssimae
+from src.metamed import MetaMED, ssimae
 from src.opticalflow import OpticalFlow
 from src.trmdsv import load_model
+from src.transform import StrongTransform
 
 def train(args):
 
@@ -37,15 +38,10 @@ def train(args):
     # Transforms
     pre_model = Compose([spatial_transform, color_transform])
     pre_flow = Compose([Resize((384, 384), antialias=True), Normalize(0.5, 0.5)])
-    colour_augmentation = Compose([
-        ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.2),
-        RandomGrayscale(p=0.1),
-    ])
-    spatial_augmentation = Compose([
-        RandomHorizontalFlip(),
-        RandomAffine(degrees=45, translate=(0.1, 0.1), scale=(0.8, 1.2), shear=15, interpolation=InterpolationMode.BILINEAR),
-    ])
-    jount_augmentation = JointTransform(spatial_augmentation, colour_augmentation)
+
+    
+    joint_augmentation = StrongTransform(do_spatial=True)
+    colour_augmentation = StrongTransform(do_spatial=False)
     
     if do_temp or do_aug:
         depth_model_slow, _, _ = load_model(args.model, None, device)
@@ -130,7 +126,7 @@ def train(args):
                     target_depths = depth_model_slow(color_transform(image)).unsqueeze(1)
                     target_depths = (target_depths - target_depths.flatten(1).mean(1)[:, None, None, None]) / target_depths.flatten(1).std(1)[:, None, None, None]
                     
-                aug_image, target_depths = jount_augmentation(image, depth=target_depths)
+                aug_image, target_depths = joint_augmentation(image, depth=target_depths)
                 mask = aug_image.sum(dim=1, keepdim=True) != 0
                 
                 predicted_depths = depth_model(color_transform(aug_image)).unsqueeze(1)
@@ -154,7 +150,7 @@ def train(args):
                     ab_flows = resize(ab_flows, b_depths.shape[-2:])
                     b_depths_registered = optical_flow.grid_sample(b_depths, ab_flows)
                 
-                a_images, b_depths_registered = jount_augmentation(a_images, depth=b_depths_registered)
+                a_images, b_depths_registered = joint_augmentation(a_images, depth=b_depths_registered)
                 mask = a_images.sum(dim=1, keepdim=True) != 0
                     
                 a_depths = depth_model(color_transform(a_images)).unsqueeze(1)
@@ -244,9 +240,9 @@ if __name__ == "__main__":
     parser.add_argument("--gradient-clipping", type=float, default=10)
     parser.add_argument("--ema-step", type=int, default=5)
     parser.add_argument("--ema-gamma", type=float, default=0.95)
-    parser.add_argument("--epoch-batches", type=int, default=60)
-    parser.add_argument("--max-epoch", type=int, default=750)
-    parser.add_argument("--early-stop", type=int, default=100)
+    parser.add_argument("--epoch-batches", type=int, default=300)
+    parser.add_argument("--max-epoch", type=int, default=200)
+    parser.add_argument("--early-stop", type=int, default=20)
     args = parser.parse_args()
     
     train(args)
