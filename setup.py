@@ -6,7 +6,7 @@ setup(
     author_email='charles.budd@kcl.ac.uk',
     url='https://github.com/charliebudd/transferring-relative-monocular-depth-to-surgical-vision',
     license='MIT',
-    packages=find_packages("src"),
+    packages=['trmdsv'],
     package_dir={'trmdsv': 'src/trmdsv'},
     install_requires=[
         'torch>=2.2.0',
