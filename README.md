@@ -4,7 +4,7 @@
 
 This is the official repository for our state-of-the-art approach to monocular depth in surgical vision as presented in our paper...
 <ul><b>Transferring Relative Monocular Depth to Surgical Vision with Temporal Consistency</b><br>
-    Charlie Budd, Tom Vercauteren.<br>
+    Charlie Budd, and Tom Vercauteren.<br>
     [ <a href="https://doi.org/10.1007/978-3-031-72089-5_65">MICCAI</a>, <a href="https://arxiv.org/abs/2403.06683">arXiv</a> ] 
 </ul>
 
